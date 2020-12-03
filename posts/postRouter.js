@@ -5,7 +5,6 @@ const router = express.Router();
 const HelperFuncs = require('./postDb')
 
 // CUSTOM MIDDLEWARE
-
 const validatePostId = async (req, res, next) => {
   const { id } = req.params;
 
@@ -52,7 +51,7 @@ router.delete('/:id', validatePostId, (req, res) => {
 
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => { //question!
   // do your magic!
 });
 
