@@ -51,8 +51,8 @@ router.delete('/:id', validatePostId, (req, res) => {
 
 });
 
-router.put('/:id', (req, res) => { //question!
-  // do your magic!
+router.put('/:id', validatePostId, (req, res) => { //question!
+  //updating! not creating new post.
 });
 
 

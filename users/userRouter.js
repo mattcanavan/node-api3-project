@@ -1,4 +1,3 @@
-const { json } = require('express');
 const express = require('express');
 
 const router = express.Router();
@@ -37,16 +36,39 @@ function validateUser(req, res, next) {
 }
 
 function validatePost(req, res, next) {
-  // do your magic!
+
+  if (!req.body){
+    res.status(400).json({ message: "missing user data (i.e. body)" })
+  } else if (!req.body.text) {
+    res.status(400).json({ message: "missing required text field" })
+  } else{
+    req.newPost = req.body;
+    next();
+  }
 }
 
 // ENDPOINTS
-router.post('/', (req, res) => {
-  // do your magic!
+router.post('/', validateUser, (req, res) => {
+  
+  HelperFuncs.insert(req.newUser)
+  .then(success => {
+    res.status(201).json({message: `new user added with name: ${JSON.stringify(req.newUser)}`}) //dont want to do req.body.name !question!
+  })
+  .catch(error => {
+    res.status(500).json({message: error.message})
+  })
+
 });
 
-router.post('/:id/posts', (req, res) => {
-  // do your magic!
+router.post('/:id/posts', [validateUserId, validatePost], (req, res) => {
+  HelperFuncs.insert(req.newPost)
+  .then(success => {
+    res.status(201).json({message: `successfully added the following post ${JSON.stringify(req.newPost)}`})
+  })
+  .catch(error => {
+    res.status(500).json({message: error.message})
+  })
+
 });
 
 router.get('/', (req, res) => {
